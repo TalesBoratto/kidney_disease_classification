@@ -13,8 +13,7 @@ import base64
 
 @ensure_annotations
 def read_yaml(path_to_yaml: Path) -> ConfigBox:
-    """
-    Reads yaml file and returns
+    """reads yaml file and returns
     Args:
         path_to_yaml (str): path like input
     Raises:
@@ -26,7 +25,7 @@ def read_yaml(path_to_yaml: Path) -> ConfigBox:
     try:
         with open(path_to_yaml) as yaml_file:
             content = yaml.safe_load(yaml_file)
-            logger.info(f"yaml file: {path_to_yaml} loaaded successfully")
+            logger.info(f"yaml file: {path_to_yaml} loaded successfully")
             return ConfigBox(content)
     except BoxValueError:
         raise ValueError("yaml file is empty")
@@ -37,11 +36,10 @@ def read_yaml(path_to_yaml: Path) -> ConfigBox:
 @ensure_annotations
 def create_directories(path_to_directories: list, verbose=True):
     """
-    Create list of directories
-
+    create list of directories
     Args:
         path_to_directories (list): list of path of directories
-        ignore_log (bool, optional): ignore if multiple dirs is to be created. Defaults to True.
+        ignore_log (bool, optional): ignore if multiple dirs is to be created. Defaults to False.
     """
     for path in path_to_directories:
         os.makedirs(path, exist_ok=True)
@@ -52,7 +50,7 @@ def create_directories(path_to_directories: list, verbose=True):
 @ensure_annotations
 def save_json(path: Path, data: dict):
     """
-    Save json data.
+    save json data
     Args:
         path (Path): path to json file
         data (dict): data to be saved in json file
@@ -66,7 +64,7 @@ def save_json(path: Path, data: dict):
 @ensure_annotations
 def load_json(path: Path) -> ConfigBox:
     """
-    Load json files data.
+    load json files data
     Args:
         path (Path): path to json file
     Returns:
@@ -75,16 +73,16 @@ def load_json(path: Path) -> ConfigBox:
     with open(path) as f:
         content = json.load(f)
 
-    logger.info(f"json file loaded successfully from: {path}")
+    logger.info(f"json file loaded succesfully from: {path}")
     return ConfigBox(content)
 
 
 @ensure_annotations
 def save_bin(data: Any, path: Path):
     """
-    Save binary file.
+    save binary file
     Args:
-        data (Any): data to be saved
+        data (Any): data to be saved as binary
         path (Path): path to binary file
     """
     joblib.dump(value=data, filename=path)
@@ -92,11 +90,25 @@ def save_bin(data: Any, path: Path):
 
 
 @ensure_annotations
+def load_bin(path: Path) -> Any:
+    """
+    load binary data
+    Args:
+        path (Path): path to binary file
+    Returns:
+        Any: object stored in the file
+    """
+    data = joblib.load(path)
+    logger.info(f"binary file loaded from: {path}")
+    return data
+
+
+@ensure_annotations
 def get_size(path: Path) -> str:
     """
-    Get size in KB.
+    get size in KB
     Args:
-        path (Path): path to file
+        path (Path): path of the file
     Returns:
         str: size in KB
     """
@@ -111,7 +123,7 @@ def decodeImage(imgstring, fileName):
         f.close()
 
 
-def encodeimageIntoBase64(croppedImagePath):
+def encodeImageIntoBase64(croppedImagePath):
     with open(croppedImagePath, "rb") as f:
         return base64.b64encode(f.read())
     
